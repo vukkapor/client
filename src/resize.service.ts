@@ -6,7 +6,7 @@ import {
 } from '@nestjs/microservices';
 
 @Injectable()
-export class MathService {
+export class ResizeService {
   private client: ClientProxy;
 
   constructor() {
@@ -19,7 +19,11 @@ export class MathService {
     });
   }
 
-  public accumulate(data: number[]) {
-    return this.client.send<number, number[]>('add', data);
+  public resize(imageConfig: {
+    imageLink: string;
+    width: number;
+    height: number;
+  }) {
+    return this.client.send('resize', imageConfig);
   }
 }
