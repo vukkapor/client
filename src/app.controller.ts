@@ -2,6 +2,7 @@ import { Body, Controller, Post } from '@nestjs/common';
 import { ResizeService } from './resize/resize.service';
 import { RotateService } from './rotate/rotate.service';
 import { CompositeService } from './composite/composite.service';
+import {CropService} from "./crop/crop.service";
 
 @Controller()
 export class AppController {
@@ -9,6 +10,7 @@ export class AppController {
     private resizeService: ResizeService,
     private rotateService: RotateService,
     private compositeService: CompositeService,
+    private cropService: CropService,
   ) {}
 
   //Define the post for resize method call
@@ -36,7 +38,7 @@ export class AppController {
     return this.rotateService.rotate(imageConfig);
   }
 
-  //Define the post for rotate method call
+  //Define the post for composite method call
   @Post('composite')
   async composite(
     @Body('imageConfig')
@@ -46,5 +48,20 @@ export class AppController {
     },
   ) {
     return this.compositeService.composite(imageConfig);
+  }
+
+  //Define the post for crop method call
+  @Post('crop')
+  async crop(
+    @Body('imageConfig')
+    imageConfig: {
+      imageLink: string;
+      left: number;
+      top: number;
+      width: number;
+      height: number;
+    },
+  ) {
+    return this.cropService.crop(imageConfig);
   }
 }
